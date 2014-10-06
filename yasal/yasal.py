@@ -85,11 +85,23 @@ def sanitize_args(args, parser):
         sys.exit(1)
 
 
+def do_recursive(args):
+    for root, dirs, files in os.walk(args.recursive):
+        for fname in files:
+            if check_fname(fname):
+                desktop, title = convert(os.path.join(root, fname), args.icontexthtml)
+                write(args, root, title, desktop)
+        break
+
+
 def main():
     # configure arguments
-    parser = argparse.ArgumentParser('link2desktop', description='''convert windows .url favoris file to gnu/linux .desktop file,
-.desktop file are named with the given url page title,
-the output file will be placed in the same folder if not specified''')
+    parser = argparse.ArgumentParser(
+        'yasal', description='''Yet Another Save As Link:
+    Saves an internet link externally as a Windows Shortcut File (*.url) a UNIX Desktop file (*.desktop)
+    .desktop file are named with the given url page title,
+    the output file will be placed in the same folder if not specified''')
+
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-f', '--file', help='specify file FILE to be convert')
     group.add_argument('-r', '--recursive', help='recursive mode, will convert all .url file in directory RECURSIVE')
@@ -128,12 +140,7 @@ the output file will be placed in the same folder if not specified''')
 
     # recursive case
     elif args.recursive:
-        for root, dirs, files in os.walk(args.recursive):
-            for fname in files:
-                if check_fname(fname):
-                    desktop, title = convert(os.path.join(root, fname), args.icontexthtml)
-                    write(args, root, title, desktop)
-            break
+        do_recursive(args)
 
     # this case should never happened
     else:
