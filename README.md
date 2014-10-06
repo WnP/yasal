@@ -6,7 +6,7 @@ Saves an internet link externally as a Windows Shortcut File `*.url` a UNIX Desk
 
 yasal is mostly inspirated by the firefox plugin [SaveLink](https://addons.mozilla.org/en-US/firefox/addon/savelink/)
 
-.desktop file are named with the given url page title,
+`.desktop` file are named with the given url page title,
 the output file will be placed in the same folder if not specified
 
 ## Usage
