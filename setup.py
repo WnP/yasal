@@ -12,7 +12,7 @@ except (IOError, ImportError):
 
 setup(
     name='yasal',
-    version='1.0.1',
+    version='1.0.2',
     license='MIT',
     description='Yet another save as link',
     long_description=description,
