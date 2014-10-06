@@ -24,9 +24,11 @@ setup(
     install_requires=[
         'BeautifulSoup',
     ],
-    scripts=[
-        'scripts/yasal',
-    ],
+    entry_points={
+        'console_scripts': [
+            'yasal = yasal.yasal:main',
+        ],
+    },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
