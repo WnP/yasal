@@ -2,7 +2,7 @@
 
 ## Description
 
-Saves an internet link externally as a Windows Shortcut File `*.url` a UNIX Desktop file `*.desktop`
+Convert Windows Shortcut File `*.url` to UNIX Desktop file `*.desktop`
 
 yasal is mostly inspirated by the firefox plugin [SaveLink](https://addons.mozilla.org/en-US/firefox/addon/savelink/)
 
