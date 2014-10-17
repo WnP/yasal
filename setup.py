@@ -6,6 +6,7 @@ try:
     import pypandoc
     description = pypandoc.convert('README.md', 'rst')
 except (IOError, ImportError):
+    print 'please install pypandoc for a reStructured-Text doc for pypi'
     with open('README.md', 'rb') as f:
         description = f.read()
 
