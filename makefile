@@ -1,5 +1,5 @@
 all:
-	python setup.py sdist
+	python2 setup.py sdist
 
 clean:
 	rm -rf dist yasal.egg-info
