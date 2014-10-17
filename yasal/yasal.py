@@ -65,6 +65,8 @@ def write(args, path, title, desktop):
     else:
         out_name = os.path.join(path, ''.join((title, '.desktop')))
 
+    if args.verbose:
+        print out_name
     with open(out_name, 'wb') as f:
         f.write(desktop.encode('utf-8'))
 
@@ -87,11 +89,15 @@ def sanitize_args(args, parser):
 
 def do_recursive(args):
     for root, dirs, files in os.walk(args.recursive):
+        if args.verbose:
+            print '-' * 80
+            print 'root: ', root
+            print 'dirs: ', dirs
+            print 'files: ', files
         for fname in files:
             if check_fname(fname):
                 desktop, title = convert(os.path.join(root, fname), args.icontexthtml)
                 write(args, root, title, desktop)
-        break
 
 
 def main():
@@ -106,6 +112,7 @@ def main():
     group.add_argument('-f', '--file', help='specify file FILE to be convert')
     group.add_argument('-r', '--recursive', help='recursive mode, will convert all .url file in directory RECURSIVE')
     parser.add_argument('-o', '--out', help='specify output directory OUT for .desktop files')
+    parser.add_argument('-v', '--verbose', help='increase output verbosity', action='store_true')
     parser.add_argument(
         '-i', '--icontexthtml',
         action="store_true",
