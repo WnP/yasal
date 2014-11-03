@@ -6,6 +6,7 @@ import os
 import urllib2
 import argparse
 import ConfigParser
+import traceback
 from BeautifulSoup import BeautifulSoup
 
 
@@ -87,6 +88,23 @@ def sanitize_args(args, parser):
         sys.exit(1)
 
 
+def make_file(file_name, root_path, args):
+    try:
+        desktop, title = convert(file_name, args.icontexthtml)
+        write(args, root_path, title, desktop)
+    except Exception:
+        if args.verbose:
+            print '-' * 80
+            print 'ERROR: file {file_name}:'.format(file_name=file_name)
+            for l in traceback.format_exc().splitlines():
+                print l
+        else:
+            print 'ERROR: file {file_name}: {error}'.format(
+                file_name=file_name,
+                error=traceback.format_exc().splitlines()[-1:][0],
+            )
+
+
 def do_recursive(args):
     for root, dirs, files in os.walk(args.recursive):
         if args.verbose:
@@ -96,8 +114,7 @@ def do_recursive(args):
             print 'files: ', files
         for fname in files:
             if check_fname(fname):
-                desktop, title = convert(os.path.join(root, fname), args.icontexthtml)
-                write(args, root, title, desktop)
+                make_file(os.path.join(root, fname), root, args)
 
 
 def main():
@@ -138,12 +155,10 @@ def main():
         path, fname = os.path.split(args.file)
 
         if check_fname(fname):
-            desktop, title = convert(args.file, args.icontexthtml)
+            make_file(args.file, path, args)
         else:
             print 'ERROR: you must provide a .url file'
             sys.exit(1)
-
-        write(args, path, title, desktop)
 
     # recursive case
     elif args.recursive:
